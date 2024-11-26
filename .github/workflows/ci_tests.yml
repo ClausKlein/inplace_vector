@@ -61,7 +61,7 @@ jobs:
           - description: "TSan"
             args: "-DCMAKE_CXX_FLAGS=-fsanitize=thread"
           - description: "ASan"
-            args: "-DCMAKE_CXX_FLAGS=-fsanitize=address -fsanitize=undefined"
+            args: "-DCMAKE_CXX_FLAGS='-fsanitize=address -fsanitize=undefined'"
         include:
           # Needs C++ 20 as C++17 selectivly disables ranges and concepts
           # related functionalities
@@ -72,7 +72,7 @@ jobs:
             cpp_version: 20
             cmake_args:
               description: "Werror"
-              args: "-DCMAKE_CXX_FLAGS=-Wall -Wextra -Wpedantic -Werror"
+              args: "-DCMAKE_CXX_FLAGS='-Wall -Wextra -Wpedantic -Werror'"
           # Note: this is a header only project
           # - platform: ubuntu-latest
           #   compiler:
@@ -100,7 +100,7 @@ jobs:
           ninja --version
       - name: Configure CMake
         run: |
-          cmake -B build -S . -DCMAKE_PREFIX_PATH=/tmp/beman.inplace_vector "-DCMAKE_CXX_STANDARD=${{ matrix.cpp_version }} ${{ matrix.cmake_args.args }}"
+          cmake -B build -S . -DCMAKE_PREFIX_PATH=/tmp/beman.inplace_vector -DCMAKE_CXX_STANDARD=${{ matrix.cpp_version }} ${{ matrix.cmake_args.args }}
         env:
           CC: ${{ matrix.compiler.c }}
           CXX: ${{ matrix.compiler.cpp }}
