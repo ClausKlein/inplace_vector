@@ -20,7 +20,7 @@
         "CMAKE_CXX_COMPILER": "$env{CXX}",
         "CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic",
         "CMAKE_C_FLAGS": "-Wall -Wextra -Wpedantic",
-        "GCOV_EXECUTABLE": "$env{GCOV} gcov"
+        "GCOV_EXECUTABLE": "$env{GCOV}"
       }
     },
     {

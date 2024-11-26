@@ -20,10 +20,10 @@ jobs:
         compiler:
           - cpp: g++-14
             c: gcc-14
-            gcov: ""
+            gcov: gcov-14
           - cpp: clang++-18
             c: clang-18
-            gcov: llvm-cov-18
+            gcov: llvm-cov-18 gcov
     name: "Preset Test: ${{ matrix.preset }} ${{ matrix.compiler.cpp }}"
     steps:
       - uses: actions/checkout@v4
@@ -37,7 +37,7 @@ jobs:
 
       - name: Run preset ${{ matrix.preset }} ${{ matrix.compiler.cpp }}
         run: |
-          which llvm-cov-18 gcov gcovr || echo ignored
+          which llvm-cov-18 gcov-14 gcovr || echo ignored
           cmake --workflow --preset ${{ matrix.preset }}
         env:
           CC: ${{ matrix.compiler.c }}
@@ -72,17 +72,18 @@ jobs:
             cpp_version: 20
             cmake_args:
               description: "Werror"
-              cmake_args: "-DCMAKE_CXX_FLAGS='-Werror=all -Werror=extra'"
-          - platform: ubuntu-latest
-            compiler:
-              cpp: g++
-              c: gcc
-            cpp_version: 20
-            cmake_args:
-              description: "Dynamic"
-              cmake_args: "-DBUILD_SHARED_LIBS=on"
+              args: "-DCMAKE_CXX_FLAGS=-Wall -Wextra -Wpedantic -Werror"
+          # Note: this is a header only project
+          # - platform: ubuntu-latest
+          #   compiler:
+          #     cpp: g++
+          #     c: gcc
+          #   cpp_version: 20
+          #   cmake_args:
+          #     description: "Dynamic"
+          #     args: "-DBUILD_SHARED_LIBS=ON"
 
-    name: "Bulid & Test: ${{ matrix.compiler.c }} ${{ matrix.cpp_version }} ${{ matrix.cmake_args.description }}"
+    name: "Build & Test: ${{ matrix.compiler.c }} ${{ matrix.cpp_version }} ${{ matrix.cmake_args.description }}"
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
@@ -91,7 +92,7 @@ jobs:
         with:
           cmakeVersion: "~3.25.0"
           ninjaVersion: "^1.11.1"
-      - name: Print installed softwares
+      - name: Print installed software
         run: |
           clang++ --version
           g++ --version
