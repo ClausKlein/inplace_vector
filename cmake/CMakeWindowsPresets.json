@@ -18,7 +18,6 @@
       "cacheVariables": {
         "CMAKE_C_COMPILER": "cl",
         "CMAKE_CXX_COMPILER": "cl",
-        "CMAKE_CONFIGURATION_TYPES": "Debug;RelWithDebInfo;Coverage;Asan;Lsan;Usan",
         "CMAKE_CXX_FLAGS": "/Wall /WX",
         "CMAKE_C_FLAGS": "/Wall /WX"
       }

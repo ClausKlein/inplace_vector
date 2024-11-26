@@ -33,6 +33,34 @@ option(
     ${PROJECT_IS_TOP_LEVEL}
 )
 
+option(BEMAN_WARNINGS_AS_ERRORS "Be really strict" OFF)
+if(CMAKE_BUILD_TYPE STREQUAL Debug)
+    find_program(CLANGTIDY clang-tidy)
+    if(CLANGTIDY)
+        # Generic flags
+        set(CLANG_TIDY_CXX_FLAGS "-extra-arg=-Wno-unknown-warning-option")
+        set(CLANG_TIDY_C_FLAGS "-extra-arg=-Wno-unknown-warning-option")
+
+        # set warnings as errors
+        if(BEMAN_WARNINGS_AS_ERRORS)
+            list(APPEND CLANG_TIDY_CXX_FLAGS -warnings-as-errors=*)
+            list(APPEND CLANG_TIDY_C_FLAGS -warnings-as-errors=*)
+        endif()
+        # C++ clang-tidy
+        set(CMAKE_CXX_CLANG_TIDY
+            ${CLANGTIDY}
+            ${CLANG_TIDY_CXX_FLAGS}
+            ${CLANG_TIDY_EXTRA_ARGUMENTS}
+        )
+        # C clang-tidy
+        set(CMAKE_C_CLANG_TIDY
+            ${CLANGTIDY}
+            ${CLANG_TIDY_C_FLAGS}
+            ${CLANG_TIDY_EXTRA_ARGUMENTS}
+        )
+    endif()
+endif()
+
 # includes
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
