@@ -1,1 +1,9 @@
+---
 BasedOnStyle: LLVM
+---
+Language: Cpp
+---
+Language: Json
+IndentWidth: 2
+ColumnLimit: 123
+...
